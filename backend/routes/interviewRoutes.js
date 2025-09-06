@@ -1,5 +1,5 @@
 import express from 'express';
-import protect from '../middleware/authMiddleware.js';
+import verifyJWT from '../middleware/authMiddleware.js';
 import InterviewSession from '../models/InterviewSession.js';
 import main from '../server.js'
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 // Assume callGemini function is available here
 
 // All routes in this file will be protected by the 'protect' middleware
-router.use(protect);
+router.use(verifyJWT);
 
 /**
  * @route   POST /api/interviews/start

@@ -1,4 +1,4 @@
-import {User} from '../models/User.js';
+import User  from '../models/User.js';
 // import {Counselor} from '../models/Counselor.model.js'
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -9,11 +9,11 @@ import {ApiError} from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 
-
 const generateAccessAndRefereshTokens = async(userId) =>{
     try{
         const user = await User.findById(userId)    
         const accessToken = user.generateAccessToken() // see function in user.model
+        console.log(accessToken)
         const refreshToken = user.generateRefreshToken()
         user.refreshToken = refreshToken   // save refresh token on the server but not save access token on server
         await user.save({ validateBeforeSave: false })   // save on server without any validation or any field which is required but not send due to this it will save any how
@@ -26,61 +26,68 @@ const generateAccessAndRefereshTokens = async(userId) =>{
     }
 }
 
-// Register User Logic
-export const registerUser = asyncHandler( async ( req, res) =>{
+
+
+
+
+
+export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  if([name,email, password ].some((field)=>
+  if([name,email, password].some((field)=>
     field?.trim() === "")) {
         throw new ApiError(400, "all fields are required")
     }
   
-    let existedUser = await User.findOne({ email });
-    if(existedUser){
-        throw new ApiError(409, " user with this email or userName  already exists")
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ error: 'User already exists' });
     }
-      
     const user = await User.create({ name, email, password });
-   
       const createdUser = await User.findById(user._id).select("-password -refreshToken")
 
       if(!createdUser){
         throw new ApiError(500, "something went wrong while registering user")
       }
-      // ✅ Create Counselor profile if role is counselor
-//   if (role === "counselor") {
-//     await Counselor.create({
-//       user: createdUser._id,
-//       specializations: specializations || [],
-//       bio: bio || "",
-//       availability: availability || []
-//     });
-//   }
-
+      
       return res.status(201).json(
         new ApiResponse(200, createdUser, "User registered succesfully")
     )
-    
-    })
-    
-    //Rgister counsellor
+    // res.status(201).json({
+    //   _id: user._id,
+    //   name: user.name,
+    //   email: user.email,
+    //   token: generateToken(user._id),
+    // });
+
+});
 
 
 
 
 
-// Login User Logic
+
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
-  if(!email){
+    if(!email){
     throw new ApiError(400, "email is required")
   }
   
     let user = await User.findOne({ email });
-    if (!user) {
+    // if (user && (await user.matchPassword(password))) {
+    //   res.json({
+    //     _id: user._id,
+    //     name: user.name,
+    //     email: user.email,
+    //     token: generateToken(user._id),
+    //   });
+    // } else {
+    //   res.status(401).json({ error: 'Invalid email or password' });
+    // }
+
+        if (!user) {
        throw  new ApiError(404,"User does not exist")
     }
-      const isPasswordValid = await user.isPasswordCorrect(password)
+      const isPasswordValid = await user.matchPassword(password)
     if(!isPasswordValid){   
         throw new ApiError(401, "Invalid credentials")
     }
@@ -104,24 +111,17 @@ export const loginUser = asyncHandler(async (req, res) => {
             200,
             {
                 user: loggedInUser,accessToken, refreshToken
-            },
-           user.role === "counselor"?  "Counselor logged in successfully" : "User logged in successfully"
+            }
         )
      )
 
-    
-})
 
-// export const getUserProfile = async (req, res) => {
-//     try {
-//         // req.user is attached by the authMiddleware
-//         const user = await User.findById(req.user.id).select('-password');
-//         res.json(user);
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send('Server Error');
-//     }
-// };
+
+
+});
+
+
+
 
 export const logoutUser = asyncHandler(async (req, res) => {
     // Update refresh token to undefined in the database
@@ -150,7 +150,6 @@ export const logoutUser = asyncHandler(async (req, res) => {
         .clearCookie("refreshToken", options)
         .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
-
 
 export const refreshAccessToken = asyncHandler(async(req, res) => {
 const incomingRefreshToken = req.cookies.
@@ -198,11 +197,3 @@ try {
     )
 }
 })
-
-export const getCurrentUser = asyncHandler(async(req,res)=>{
-    
-      return res
-      .status(200)
-      .json(new ApiResponse(200, req.user, "current user fetched successfully"))
-
-}) 

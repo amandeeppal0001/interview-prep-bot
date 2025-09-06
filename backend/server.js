@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+
 import { GoogleGenAI } from "@google/genai";
 import connectDB from './config.db/db.js'; // Import DB connection
 import InterviewSession from './models/InterviewSession.js';
@@ -20,6 +22,8 @@ const port = process.env.PORT || 5001;
 app.use(cors());
 // Enable the Express app to parse JSON formatted request bodies
 app.use(express.json());
+app.use(cookieParser());
+
 
 // --- Google Generative AI Initialization ---
 if (!process.env.GEMINI_API_KEY) {
