@@ -42,7 +42,7 @@ function Signup() {
     // localStorage.setItem("token", data.token);
 
     // Redirect to '/select' if login successful
-    navigate("/select");
+    navigate("/login");
   } catch (error) {
     console.error("Error logging in:", error);
   }
