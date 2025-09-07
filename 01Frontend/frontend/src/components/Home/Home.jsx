@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 function Home() {
   // This function handles the smooth scrolling logic.
@@ -110,12 +111,18 @@ function Home() {
                 <h2 className="text-2xl sm:text-3xl font-bold mb-4">Ready to Start?</h2>
                 <p className="mb-6 text-purple-200">Join thousands of others improving their interview skills today.</p>
                 <div className="flex justify-center space-x-4">
-                    <a href="/login" className="bg-white text-purple-600 font-semibold py-3 px-6 rounded-full hover:bg-gray-200 transition duration-300">
-                        Log In
-                    </a>
-                    <a href="/signup" className="bg-purple-500 text-white font-semibold py-3 px-6 rounded-full border border-white hover:bg-purple-400 transition duration-300">
-                        Sign Up
-                    </a>
+                    <Link
+  to="/login"
+  className="bg-white text-purple-600 font-semibold py-3 px-6 rounded-full hover:bg-gray-200 transition duration-300"
+>
+  Log In
+</Link>
+ <Link
+  to="/signup"
+  className="bg-purple-500 text-white font-semibold py-3 px-6 rounded-full border border-white hover:bg-purple-400 transition duration-300"
+>
+  Sign Up
+</Link>
                 </div>
             </div>
         </section>
