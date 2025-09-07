@@ -1,23 +1,47 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState,useEffect  } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ChatPanel() {
   const [messages, setMessages] = useState([
-    {
-      sender: 'bot',
-      text: "Great, let's begin. Tell me about a challenging project you worked on and how you handled it."
-    },
-    {
-      sender: 'user',
-      text: "Certainly. In my previous role, I was tasked with refactoring a legacy codebase to improve performance. The main challenge was..."
-    },
-    {
-      sender: 'bot',
-      text: "Thank you for that detailed answer. How do you handle conflict within your team?"
-    }
+    // {
+    //   sender: 'bot',
+    //   text: "Great, let's begin. Tell me about a challenging project you worked on and how you handled it."
+    // },
+    // {
+    //   sender: 'user',
+    //   text: "Certainly. In my previous role, I was tasked with refactoring a legacy codebase to improve performance. The main challenge was..."
+    // },
+    // {
+    //   sender: 'bot',
+    //   text: "Thank you for that detailed answer. How do you handle conflict within your team?"
+    // }
   ]);
+
+  const [sessionId, setSessionId] = useState(null);
   const [input, setInput] = useState('');
+
+   const location = useLocation();
   const navigate = useNavigate();
+
+
+
+   useEffect(() => {
+    // **THE KEY STEP:** Access the data from location.state
+    const startData = location.state?.interviewData;
+
+    // Check if the data exists
+    if (startData && startData.question && startData.sessionId) {
+      // Set the first message and store the session ID
+      setMessages([{ sender: 'bot', text: startData.question }]);
+      setSessionId(startData.sessionId);
+    } else {
+      // If a user lands here directly, they won't have the data.
+      // It's good practice to redirect them back.
+      console.error("No interview data found. Redirecting...");
+      navigate('/select'); 
+    }
+    // The dependency array ensures this runs only once on mount
+  }, [location.state, navigate]);
 
   const handleSendMessage = () => {
     if (input.trim() !== '') {
@@ -70,7 +94,7 @@ function ChatPanel() {
         ></textarea>
         <div className="flex justify-end mt-4 space-x-3">
           <button className="px-6 py-2 bg-gray-200 text-gray-800 rounded-full font-semibold hover:bg-gray-300 transition">
-            Skip
+            reply
           </button>
           <button 
             className="px-6 py-2 bg-purple-600 text-white rounded-full font-semibold hover:bg-purple-700 transition"

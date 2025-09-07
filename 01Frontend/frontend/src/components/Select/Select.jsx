@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState,useEffect , Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { Listbox, Transition } from "@headlessui/react";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -7,14 +7,14 @@ import Logo from "../../assets/logoix.png";
 
 function Select() {
   const [formData, setFormData] = useState({
-    jobRole: "",
+    role: "",
     domain: "",
-    mode: "",
+    interviewMode: "",
   });
 
   const navigate = useNavigate();
 
-  const jobRoles = [
+  const roles = [
     "Software Engineer",
     "Data Scientist",
     "DevOps Engineer",
@@ -30,13 +30,50 @@ function Select() {
     "Cloud Computing",
   ];
 
-  const modes = ["Technical", "Behavioral"];
+  const interviewModes = ["Technical", "Behavioral"];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Selected Data:", formData);
-    navigate("/interview", { state: formData });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+    
+  //   console.log("Selected Data:", formData);
+  //   navigate("/interview", { state: formData });
+  // };
+
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("https://backend-for-interview-prep.onrender.com/api/interviews/start", {
+      method: "POST",
+      headers: {
+    "Content-Type": "application/json",
+  },
+  credentials: "include",
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+const interviewData = await response.json();
+      //  console.log("Server response:", data);
+
+    // Example: Save token to localStorage
+    // localStorage.setItem("token", data.token);
+console.log("Selected Data:", formData);
+      // **THE KEY STEP:** Pass the fetched data in `state`
+      navigate("/interview", { state: { interviewData: interviewData } });
+    // const data = await response.json();
+   
+    
+    // navigate("/interview", { state: formData });
+  } catch (error) {
+    console.error("Error starting interview:", error);
+  }
+};
+
+
 
   return (
     <div className="relative min-h-screen bg-white">
@@ -52,9 +89,9 @@ function Select() {
           <div className="flex flex-col md:flex-row gap-4 w-full">
             <Dropdown
               label="Job Role"
-              options={jobRoles}
-              value={formData.jobRole}
-              onChange={(value) => setFormData({ ...formData, jobRole: value })}
+              options={roles}
+              value={formData.role}
+              onChange={(value) => setFormData({ ...formData, role: value })}
             />
             <Dropdown
               label="Domain"
@@ -64,10 +101,10 @@ function Select() {
             />
             <Dropdown
               label="Mode"
-              options={modes}
-              value={formData.mode}
-              onChange={(value) => setFormData({ ...formData, mode: value })}
-            />
+              options={interviewModes}
+              value={formData.interviewMode}
+              onChange={(value) => setFormData({ ...formData, interviewMode: value })}
+            />      
           </div>
 
           <div className="flex justify-center mt-6">
