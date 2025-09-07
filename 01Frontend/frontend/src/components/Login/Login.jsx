@@ -12,14 +12,43 @@ function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login Data:", formData);
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("Login Data:", formData);
     
-    // 3. Redirect to the '/select' page on form submission
-    // In a real app, this would happen after validating the user's credentials
-    navigate("/select"); 
-  };
+  //   // 3. Redirect to the '/select' page on form submission
+  //   // In a real app, this would happen after validating the user's credentials
+  //   navigate("/select"); 
+  // };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("https://backend-for-interview-prep.onrender.com/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+
+    const data = await response.json();
+    console.log("Server response:", data);
+
+    // Example: Save token to localStorage
+    // localStorage.setItem("token", data.token);
+
+    // Redirect to '/select' if login successful
+    navigate("/select");
+  } catch (error) {
+    console.error("Error logging in:", error);
+  }
+};
+
 
   return (
     <div className="relative min-h-screen bg-white flex items-center justify-center">

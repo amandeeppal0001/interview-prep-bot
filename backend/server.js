@@ -20,7 +20,7 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5001"];
+const allowedOrigins = ["http://localhost:5173", "https://backend-for-interview-prep.onrender.com"];
 
 app.use(cors({
   origin: function (origin, callback) {
