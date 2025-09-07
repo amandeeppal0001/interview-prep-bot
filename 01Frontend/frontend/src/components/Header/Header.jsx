@@ -7,35 +7,10 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleLogout = async () => {
-  try {
-    const response = await fetch('https://backend-for-interview-prep.onrender.com/api/users/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // This is essential. It tells the browser to send cookies to the backend.
-      // Your backend needs the cookies to identify the user and clear the session.
-      credentials: 'include', 
-    });
-
-    if (!response.ok) {
-      // Handle cases where the server fails to log out the user
-      throw new Error('Logout failed. Please try again.');
-    }
-
-    // If the API call is successful, the backend has cleared the auth cookies.
-    console.log("User logged out successfully from the backend.");
-    
-    // Redirect the user to the login page.
-    navigate('/login');
-
-  } catch (error) {
-    console.error('Logout Error:', error);
-    // Optionally, inform the user that the logout failed.
-    alert(error.message);
-  }
-};
+  const handleLogout = () => {
+    console.log("User logged out");
+    navigate("/login");
+  };
 
   return (
     <header className="absolute top-0 left-0 right-0 z-40 bg-white shadow-md">
