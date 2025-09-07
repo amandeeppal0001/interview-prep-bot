@@ -15,7 +15,7 @@ import Select from "./components/Select/Select.jsx";
 import Room from "./components/Room/Room.jsx";
 import Evaluation from "./components/Evaluation/Evaluation.jsx";
 import Summary from "./components/Summary/Summary.jsx";
-import Profile from "./components/Profile/profile.jsx";
+import Profile from "./components/Profile/Profile1.jsx";
 import Home from "./components/Home/Home.jsx";
 
 const router = createBrowserRouter(
