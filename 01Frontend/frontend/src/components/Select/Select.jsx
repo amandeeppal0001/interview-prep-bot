@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState,useEffect , Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { Listbox, Transition } from "@headlessui/react";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -56,17 +56,20 @@ function Select() {
     if (!response.ok) {
       throw new Error("Login failed");
     }
-
-    const data = await response.json();
-    console.log("Server response:", data);
+const interviewData = await response.json();
+      //  console.log("Server response:", data);
 
     // Example: Save token to localStorage
     // localStorage.setItem("token", data.token);
 console.log("Selected Data:", formData);
+      // **THE KEY STEP:** Pass the fetched data in `state`
+      navigate("/interview", { state: { interviewData: interviewData } });
+    // const data = await response.json();
+   
     
-    navigate("/interview", { state: formData });
+    // navigate("/interview", { state: formData });
   } catch (error) {
-    console.error("Error logging in:", error);
+    console.error("Error starting interview:", error);
   }
 };
 
