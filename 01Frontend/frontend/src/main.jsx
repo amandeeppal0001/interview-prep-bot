@@ -13,7 +13,7 @@ import Login from "./components/Login/Login.jsx";
 import Signup from "./components/Signup/Signup.jsx";
 import Select from "./components/Select/Select.jsx";
 import Room from "./components/Room/Room.jsx";
-import Evaluation from "./components/Evaluation/Evaluation.jsx";
+// import Evaluation from "./components/Evaluation/Evaluation.jsx";
 import Summary from "./components/Summary/Summary.jsx";
 
 const router = createBrowserRouter(
@@ -24,7 +24,7 @@ const router = createBrowserRouter(
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/select" element={<Select />} />
-        <Route path="/evaluation" element={<Evaluation />} />
+        {/* <Route path="/evaluation" element={<Evaluation />} /> */}
         <Route path="/summary" element={<Summary/>} />
       </Route>
       <Route path="/interview" element={<Room />} />

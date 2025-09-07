@@ -94,11 +94,58 @@ const handleSendMessage = async () => {
   };
   
 
-  const handleSubmitInterview = () => {
-    // Redirect to the evaluation page
-    // navigate('/evaluation');
-    navigate('/summary');
+  // const handleSubmitInterview = () => {
+  //   // Redirect to the evaluation page
+  //   // navigate('/evaluation');
+  //   navigate('/summary');
+  // };
+
+    // In ChatPanel.jsx
+
+// ... inside your ChatPanel component
+
+  const handleSubmitInterview = async () => {
+    // Guard clause to ensure we have a session ID
+    if (!sessionId) {
+        console.error("No session ID to submit.");
+        return; 
+    }
+    
+    setIsLoading(true);
+
+    try {
+        // Call the summary API endpoint with the current session ID
+        const response = await fetch('https://backend-for-interview-prep.onrender.com/api/interviews/summary', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include', // Important for sending auth cookies
+            body: JSON.stringify({ sessionId: sessionId }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch the summary report.');
+        }
+
+        // Get the summary data from the response
+        const summaryData = await response.json();
+        
+        // **KEY STEP:** Navigate to the summary page and pass the API response in the state
+        navigate('/summary', { state: { summary: summaryData } });
+
+    } catch (error) {
+        console.error("Error submitting interview:", error);
+        // Optionally, show an error to the user if the API call fails
+        alert("Could not generate the summary report. Please try again.");
+    } finally {
+        setIsLoading(false);
+    }
   };
+
+// ... rest of your component
+
+
+
+
 //     const handleSubmitReply =  async (e) => {
 //   e.preventDefault();
 
