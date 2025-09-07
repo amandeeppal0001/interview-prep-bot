@@ -1,22 +1,53 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 function Signup() {
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate(); 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Signup Data:", formData);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("Signup Data:", formData);
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("https://backend-for-interview-prep.onrender.com/api/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+       credentials: "include",
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+
+    const data = await response.json();
+    console.log("Server response:", data);
+
+    // Example: Save token to localStorage
+    // localStorage.setItem("token", data.token);
+
+    // Redirect to '/select' if login successful
+    navigate("/select");
+  } catch (error) {
+    console.error("Error logging in:", error);
+  }
+};
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white">
@@ -37,14 +68,14 @@ function Signup() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700 text-left mb-1">
               Username
             </label>
             <input
               type="text"
               name="username"
-              value={formData.username}
+              value={formData.name}
               onChange={handleChange}
               className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
               required
@@ -52,7 +83,7 @@ function Signup() {
           </div>
 
           {/* Email */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700 text-left mb-1">
               Email
             </label>
@@ -64,10 +95,10 @@ function Signup() {
               className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
               required
             />
-          </div>
+          </div> */}
 
           {/* Password */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700 text-left mb-1">
               Password
             </label>
@@ -79,9 +110,72 @@ function Signup() {
               className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
               required
             />
-          </div>
+          </div>  */}
 
           {/* Continue Button */}
+
+
+
+          {/* Username */}
+<div>
+  <label
+    htmlFor="username"
+    className="block text-sm font-medium text-gray-700 text-left mb-1"
+  >
+    Username
+  </label>
+  <input
+    id="username"
+    type="text"
+    name="name" // should match your state key
+    value={formData.name}
+    onChange={handleChange}
+    autoComplete="username"
+    className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
+    required
+  />
+</div>
+
+{/* Email */}
+<div>
+  <label
+    htmlFor="email"
+    className="block text-sm font-medium text-gray-700 text-left mb-1"
+  >
+    Email
+  </label>
+  <input
+    id="email"
+    type="email"
+    name="email"
+    value={formData.email}
+    onChange={handleChange}
+    autoComplete="email"
+    className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
+    required
+  />
+</div>
+
+{/* Password */}
+<div>
+  <label
+    htmlFor="password"
+    className="block text-sm font-medium text-gray-700 text-left mb-1"
+  >
+    Password
+  </label>
+  <input
+    id="password"
+    type="password"
+    name="password"
+    value={formData.password}
+    onChange={handleChange}
+    autoComplete="new-password"
+    className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
+    required
+  />
+</div>
+
           <button
             type="submit"
             className="w-full flex items-center justify-center gap-2 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition"

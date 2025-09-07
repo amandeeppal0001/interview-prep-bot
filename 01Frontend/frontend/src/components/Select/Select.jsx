@@ -32,11 +32,45 @@ function Select() {
 
   const modes = ["Technical", "Behavioral"];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Selected Data:", formData);
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+    
+  //   console.log("Selected Data:", formData);
+  //   navigate("/interview", { state: formData });
+  // };
+
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("https://backend-for-interview-prep.onrender.com/api/interviews/start", {
+      method: "POST",
+      headers: {
+    "Content-Type": "application/json",
+  },
+  credentials: "include",
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+
+    const data = await response.json();
+    console.log("Server response:", data);
+
+    // Example: Save token to localStorage
+    // localStorage.setItem("token", data.token);
+console.log("Selected Data:", formData);
+    
     navigate("/interview", { state: formData });
-  };
+  } catch (error) {
+    console.error("Error logging in:", error);
+  }
+};
+
+
 
   return (
     <div className="relative min-h-screen bg-white">
