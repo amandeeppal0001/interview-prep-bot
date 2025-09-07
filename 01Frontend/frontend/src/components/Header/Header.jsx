@@ -1,17 +1,14 @@
 import React, { Fragment } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
-
-// Make sure this path is correct for your project structure
 import Logo from '../../assets/logoix.png';
 
 function Header() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Add your actual logout logic here
     console.log("User logged out");
-    navigate('/login'); // Redirect to login page after logout
+    navigate('/login'); 
   };
 
   return (
@@ -37,7 +34,6 @@ function Header() {
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="inline-flex w-full justify-center items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
-              {/* SVG replacement for UserCircleIcon */}
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 viewBox="0 0 24 24" 
@@ -46,10 +42,7 @@ function Header() {
               >
                 <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clipRule="evenodd" />
               </svg>
-              
               <span className="hidden sm:inline">John Doe</span>
-              
-              {/* SVG replacement for ChevronDownIcon */}
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 viewBox="0 0 20 20" 
@@ -75,7 +68,7 @@ function Header() {
                 <Menu.Item>
                   {({ active }) => (
                     <Link
-                      to="/settings"
+                      to="/profile"   // 🔹 changed from "/settings"
                       className={`${
                         active ? 'bg-blue-500 text-white' : 'text-gray-900'
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
