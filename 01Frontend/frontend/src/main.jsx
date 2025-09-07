@@ -16,12 +16,14 @@ import Room from "./components/Room/Room.jsx";
 import Evaluation from "./components/Evaluation/Evaluation.jsx";
 import Summary from "./components/Summary/Summary.jsx";
 import Profile from "./components/Profile/profile.jsx";
+import Home from "./components/Home/Home.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Layout />}>
-        <Route path="" element={<Login />} />
+        <Route path="" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/select" element={<Select />} />
