@@ -7,9 +7,32 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleLogout = () => {
-    console.log("User logged out");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        "https://backend-for-interview-prep.onrender.com/api/users/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // include cookies/session
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Logout failed on backend.");
+      }
+
+      console.log("✅ User logged out successfully from backend.");
+    } catch (error) {
+      console.error("⚠️ Logout error:", error);
+      // Fallback to local logout
+    } finally {
+      // Always navigate to login, even if backend fails
+      console.log("➡️ Redirecting to login");
+      navigate("/login");
+    }
   };
 
   return (
