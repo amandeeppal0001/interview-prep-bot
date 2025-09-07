@@ -51,7 +51,7 @@ function Profile() {
   };
 
   return (
-    <div className="ml-20 min-h-screen bg-gray-50 p-8">
+    <div className="ml-20 min-h-screen bg-gray-50 p-8 mt-15">
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         {/* Personal Details */}
         <h1 className="text-3xl font-bold text-purple-700 mb-6">Profile</h1>

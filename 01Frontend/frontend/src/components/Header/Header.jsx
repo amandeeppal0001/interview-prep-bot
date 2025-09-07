@@ -52,7 +52,7 @@ function Header() {
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link
-              to="/select"
+              to="/dashboard"
               className="text-gray-600 hover:text-gray-900 font-medium transition"
             >
               Dashboard
@@ -66,7 +66,8 @@ function Header() {
           </nav>
         </div>
 
-        {location.pathname === "/home" || location.pathname === "/login" ? (
+        {/* {location.pathname === "/home" || location.pathname === "/login" ? ( */}
+          {location.pathname === "/home" || location.pathname === "/login" || location.pathname === "/" ? (
           // ✅ Show Sign Up button on home & login
           <Link
             to="/signup"
@@ -100,7 +101,7 @@ function Header() {
                   />
                 </svg>
 
-                <span className="hidden sm:inline">John Doe</span>
+                <span className="hidden sm:inline">User</span>
 
                 {/* SVG replacement for ChevronDownIcon */}
                 <svg
@@ -132,7 +133,7 @@ function Header() {
                   <Menu.Item>
                     {({ active }) => (
                       <Link
-                        to="/settings"
+                        to="/profile"
                         className={`${
                           active ? "bg-blue-500 text-white" : "text-gray-900"
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
