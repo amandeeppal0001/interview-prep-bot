@@ -7,14 +7,14 @@ import Logo from "../../assets/logoix.png";
 
 function Select() {
   const [formData, setFormData] = useState({
-    jobRole: "",
+    role: "",
     domain: "",
-    mode: "",
+    interviewMode: "",
   });
 
   const navigate = useNavigate();
 
-  const jobRoles = [
+  const roles = [
     "Software Engineer",
     "Data Scientist",
     "DevOps Engineer",
@@ -30,7 +30,7 @@ function Select() {
     "Cloud Computing",
   ];
 
-  const modes = ["Technical", "Behavioral"];
+  const interviewModes = ["Technical", "Behavioral"];
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
@@ -86,9 +86,9 @@ console.log("Selected Data:", formData);
           <div className="flex flex-col md:flex-row gap-4 w-full">
             <Dropdown
               label="Job Role"
-              options={jobRoles}
-              value={formData.jobRole}
-              onChange={(value) => setFormData({ ...formData, jobRole: value })}
+              options={roles}
+              value={formData.role}
+              onChange={(value) => setFormData({ ...formData, role: value })}
             />
             <Dropdown
               label="Domain"
@@ -98,10 +98,10 @@ console.log("Selected Data:", formData);
             />
             <Dropdown
               label="Mode"
-              options={modes}
-              value={formData.mode}
-              onChange={(value) => setFormData({ ...formData, mode: value })}
-            />
+              options={interviewModes}
+              value={formData.interviewMode}
+              onChange={(value) => setFormData({ ...formData, interviewMode: value })}
+            />      
           </div>
 
           <div className="flex justify-center mt-6">
