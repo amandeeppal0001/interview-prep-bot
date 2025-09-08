@@ -18,7 +18,7 @@ function ChatPanel() {
 
 
    useEffect(() => {
-    // **THE KEY STEP:** Access the data from location.state
+    // Access the data from location.state
     const startData = location.state?.interviewData;
 
     // Check if the data exists
