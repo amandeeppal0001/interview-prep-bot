@@ -72,7 +72,7 @@ setError(""); // Clear any previous errors
 
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white mt-10 ">
       {/* App Logo / Title */}
       <div className="absolute top-6 left-6 flex items-center space-x-2">
         <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">
@@ -204,7 +204,7 @@ setError(""); // Clear any previous errors
 {/* Error Message */}
 {error && (
   <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
-    <p className="text-sm text-red-600 text-center">{`${error} Login or try using another E-mail  }</p>
+    <p className="text-sm text-red-600 text-center">{`${error} Login or try using another E-mail`}</p>
   </div>
 )}
 
