@@ -204,7 +204,7 @@ setError(""); // Clear any previous errors
 {/* Error Message */}
 {error && (
   <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
-    <p className="text-sm text-red-600 text-center">{error}</p>
+    <p className="text-sm text-red-600 text-center">{`${error} Login or try using another E-mail  }</p>
   </div>
 )}
 
