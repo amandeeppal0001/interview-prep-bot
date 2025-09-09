@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link ,useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight,Loader2  } from "lucide-react";
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -8,6 +8,7 @@ function Signup() {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,7 +21,7 @@ function Signup() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-
+setLoading(true);
   try {
     const response = await fetch("https://backend-for-interview-prep.onrender.com/api/users/register", {
       method: "POST",
@@ -42,10 +43,17 @@ function Signup() {
     // localStorage.setItem("token", data.token);
 
     // Redirect to '/select' if login successful
+    if(response.ok){
+      
     navigate("/login");
+    }
   } catch (error) {
     console.error("Error logging in:", error);
   }
+    finally {
+      // Stop loading regardless of success or error
+      setLoading(false);
+    }
 };
 
 
@@ -133,6 +141,7 @@ function Signup() {
     autoComplete="username"
     className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
     required
+     disabled={loading}
   />
 </div>
 
@@ -153,6 +162,7 @@ function Signup() {
     autoComplete="email"
     className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
     required
+    disabled={loading}
   />
 </div>
 
@@ -173,20 +183,47 @@ function Signup() {
     autoComplete="new-password"
     className="w-full p-2 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"
     required
+    disabled={loading}
   />
 </div>
 
-          <button
+{/*           <button
             type="submit"
+            disabled={loading}
             className="w-full flex items-center justify-center gap-2 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition"
           >
             Continue <ArrowRight size={18} />
+          </button> */}
+
+           <button
+            type="submit"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black"
+          >
+            {loading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Signing up...
+              </>
+            ) : (
+              <>
+                Continue <ArrowRight size={18} />
+              </>
+            )}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-4">
+{/*         <p className="text-center text-sm text-gray-500 mt-4">
           Already have an account?{" "}
           <Link to="/login" className="text-black font-medium hover:underline">
+            Log in
+          </Link> */}
+         <p className="text-center text-sm text-gray-500 mt-4">
+          Already have an account?{" "}
+          <Link 
+            to="/login" 
+            className={`text-black font-medium hover:underline ${loading ? 'pointer-events-none opacity-50' : ''}`}
+          >
             Log in
           </Link>
         </p>
