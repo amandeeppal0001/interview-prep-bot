@@ -58,7 +58,7 @@ setError(""); // Clear any previous errors
     // Redirect to '/login' if registration successful
     if(response.ok){
       
-    navigate("/login");
+    navigate("/select");
     }
   } catch (error) {
     console.error("Error during registration:", error);
